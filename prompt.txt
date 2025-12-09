@@ -1,96 +1,85 @@
-You are an expert PR-review classifier. Your job is to classify the Pull Request into exactly one failure-mode category defined in the specification below.
-
-1. Abandoned / Not Reviewed
-Definition:
-PRs closed without any meaningful human reviewer activity.They receive no human feedback, no comments, no approvals, and no engagement from maintainers or contributors before being closed or auto-closed due to inactivity. Bot activity (automated checks, automated comments) does not count as review.
-Example:
-“Closing due to inactivity for more than 7 days.”
-
-2. CI/Test Failure
-Definition:
-Identify PRs that fail automated build, test, or deployment checks due to issues in the submitted code. Use this category when preview builds, CI pipelines, tests, or deployment checks fail directly because of the PR changes.
-Example:
-“vercel bot had a problem deploying to Preview”
-3. Incomplete Implementation
-Definition:
-PR where reviewers explicitly state that the implementation is incomplete, low-quality, missing required logic, missing tests, or insufficient to meet project requirements.
-Examples:
-“This implementation is missing the validation logic described in the issue.”
+You are an expert annotator for a cultural QnA dataset.
+Evaluate the following QnA for cultural relevance, quality, and categories:
+Decide if it is culturally relevant
+ Treat a QnA as cultural if its main content reflects one or more of:
+social norms, values, identity, beliefs,
+lived experience, everyday life, customs
+culture-specific systems (education, politics, religion, etc.)
+collective memory, local history, language use
+region-specific views on food, music, media, technology, etc.
 
 
-“There are no unit tests included, and test coverage is required for all new features.”
+If it is generic fact-recall with no cultural angle (e.g., “What is the capital of X?” with a trivial answer, or pure math/physics), mark it as not cultural.
 
 
-“The PR introduces incomplete API endpoints; responses are not implemented.”
+Score the QnA quality (1–5)
+ Evaluate the QnA as a dataset sample for cultural understanding, using:
 
 
-
-4. Incorrect Implementation
-Definition:
-PR where the technical implementation is wrong — it does not solve the requested technical problem even though the task description was correct.
-Example:
-Reviewer comment:
-“This does not address the issue described — these files are unrelated.”
-
-5. Unwanted Feature
-Definition:
-PR adds functionality that maintainers decide not to include because the feature is not aligned with project direction, not planned, or no longer needed.
-Examples:
-“Actually, we won’t move forward with this feature. Closing the PR and the related issue as ‘not planned.’”
+Clarity of question (precise, understandable, context clear)
+Depth of answer (goes beyond one-line facts; explains reasoning, context, or nuance)
+Cultural richness (mentions norms, practices, examples, contrasts, or real situations)
+Coherence & structure (logical, not contradictory, not random)
+Originality / human-like explanation (not just a dry definition or copied heading list)
 
 
-“Close the PR and the issue (mark as ‘not planned’).”
+Use this scale:
+
+0 - Not related, contains too many words from other languages except bangla.
+1 – Very poor: unclear, noisy, off-topic, or almost useless.
+2 – Weak: very shallow, generic, or partially off-topic.
+3 – Acceptable: usable, somewhat informative but limited depth or nuance.
+4 – Good: clear, coherent, with decent cultural detail and examples.
+5 – Excellent: rich, nuanced, clearly written, strong cultural insight.
 
 
-
-6. Non-Functional PR
-Definition:
-PR only provides setup, config changes, boilerplate, scaffolding, or other non-functional contributions. Used for PRs that do not include meaningful feature or bug-fix implementation.
-Examples:
-“It's just a test of Cursor-Slack integration.”
+#Assign cultural categories (relevant ones)
+ If is_cultural is true, assign one or more categories from this exact list:
 
 
-“Delete the erroneous file @copilot”
+Family behaviors and interpersonal relations
+Governance and society (Politics)
+Education and career
+Festivals and celebrations
+Science and Technology
+Geography
+Traditions and customs
+Idioms
+Literature
+Media and entertainment
+Music and authentic songs
+Food and drink
+Religion
+History
+Language
 
 
-
-7. Wrong Task Description
-Definition:
-PR description misrepresents or misunderstands the intended task. Use when the PR description itself demonstrates incorrect understanding.
-Example:
-“Closing this PR as it was created without proper consideration.”
-
-8. Duplicate PRs
-Definition:
-PRs closed because their work is already covered by another PR. Reviewers explicitly reference another PR that implements the same change.
-Examples:
-“Split the work and replaced it with newer PRs (#715 and #716)”
+#Rules:
+Pick 1–3 categories maximum.
+Only include a category if it is clearly and meaningfully present.
+If the QnA is not cultural, return an empty list of categories.
+Reason field
+ Provide a short justification that explains:
+why it is or is not cultural,
+why you chose the quality score,
+why you picked those categories.
 
 
-“Accidental duplicate of PR #3200”
+#Output format (strict JSON)
+For each QnA return:
+{
+  "is_cultural": true,
+  "quality_score": 4,
+  "categories": [
+    "Family behaviors and interpersonal relations",
+    "Religion"
+  ],
+  "reason": "Short explanation here."
+}
 
-
-
-9. Wrong Branch
-Definition:
-PR was submitted to the wrong GitHub branch, requiring resubmission.
-Example:
- ‘Contributor opens PR into main but project uses dev for active changes.’
-
-10. Licensing Issues
-Definition:
-Reviewers explicitly flag licensing risks, including conflicts, ownership concerns, or required legal checks.
-Example:
-“We ask that you sign our Contributor License Agreement before we can accept your contribution.”
-
-11. Misalignment
-Definition:
-Agent/contributor ignored reviewer instructions, misunderstood feedback, or failed to follow explicit directions.
-Example:
-Contributor added a comment saying “the agent failed to get this PR right.”
-
-Input:
-You will get  agent,html_url,title,body,state for a PR. Your job is to read the title, body and state and classify it accordingly.
-
-Output:
-Output a single line conataing one of the 11 categories described above, without quotes.
+#Constraints:
+Always produce valid JSON.
+is_cultural must be a boolean.
+quality_score must be an integer from 0 to 5.
+categories must be a JSON array of strings, using only the allowed category names, or [] if not cultural.
+reason must be a short string (1–4 sentences).
