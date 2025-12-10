@@ -1,96 +1,68 @@
-You are an expert PR-review classifier. Your job is to classify the Pull Request into exactly one failure-mode category defined in the specification below.
-
+You are an expert PR-review classifier. Your job is to classify the reason for failure of the Pull Request into exactly one category defined in the specification below.
+## Definitions:
 1. Abandoned / Not Reviewed
 Definition:
 PRs closed without any meaningful human reviewer activity.They receive no human feedback, no comments, no approvals, and no engagement from maintainers or contributors before being closed or auto-closed due to inactivity. Bot activity (automated checks, automated comments) does not count as review.
-Example:
-“Closing due to inactivity for more than 7 days.”
-
+Example: “Closing due to inactivity for more than 7 days.”
 2. CI/Test Failure
 Definition:
 Identify PRs that fail automated build, test, or deployment checks due to issues in the submitted code. Use this category when preview builds, CI pipelines, tests, or deployment checks fail directly because of the PR changes.
-Example:
-“vercel bot had a problem deploying to Preview”
+Example: “vercel bot had a problem deploying to Preview”
 3. Incomplete Implementation
 Definition:
 PR where reviewers explicitly state that the implementation is incomplete, low-quality, missing required logic, missing tests, or insufficient to meet project requirements.
 Examples:
 “This implementation is missing the validation logic described in the issue.”
-
-
 “There are no unit tests included, and test coverage is required for all new features.”
-
-
 “The PR introduces incomplete API endpoints; responses are not implemented.”
-
-
-
 4. Incorrect Implementation
 Definition:
 PR where the technical implementation is wrong — it does not solve the requested technical problem even though the task description was correct.
 Example:
-Reviewer comment:
-“This does not address the issue described — these files are unrelated.”
-
+Reviewer comment: “This does not address the issue described — these files are unrelated.”
 5. Unwanted Feature
 Definition:
 PR adds functionality that maintainers decide not to include because the feature is not aligned with project direction, not planned, or no longer needed.
 Examples:
 “Actually, we won’t move forward with this feature. Closing the PR and the related issue as ‘not planned.’”
-
-
 “Close the PR and the issue (mark as ‘not planned’).”
-
-
-
 6. Non-Functional PR
 Definition:
 PR only provides setup, config changes, boilerplate, scaffolding, or other non-functional contributions. Used for PRs that do not include meaningful feature or bug-fix implementation.
 Examples:
 “It's just a test of Cursor-Slack integration.”
-
-
 “Delete the erroneous file @copilot”
-
-
-
 7. Wrong Task Description
 Definition:
 PR description misrepresents or misunderstands the intended task. Use when the PR description itself demonstrates incorrect understanding.
-Example:
-“Closing this PR as it was created without proper consideration.”
-
+Example: “Closing this PR as it was created without proper consideration.”
 8. Duplicate PRs
 Definition:
 PRs closed because their work is already covered by another PR. Reviewers explicitly reference another PR that implements the same change.
 Examples:
 “Split the work and replaced it with newer PRs (#715 and #716)”
-
-
 “Accidental duplicate of PR #3200”
-
-
-
 9. Wrong Branch
 Definition:
 PR was submitted to the wrong GitHub branch, requiring resubmission.
 Example:
  ‘Contributor opens PR into main but project uses dev for active changes.’
-
 10. Licensing Issues
 Definition:
 Reviewers explicitly flag licensing risks, including conflicts, ownership concerns, or required legal checks.
-Example:
-“We ask that you sign our Contributor License Agreement before we can accept your contribution.”
-
+Example: “We ask that you sign our Contributor License Agreement before we can accept your contribution.”
 11. Misalignment
 Definition:
 Agent/contributor ignored reviewer instructions, misunderstood feedback, or failed to follow explicit directions.
-Example:
-Contributor added a comment saying “the agent failed to get this PR right.”
+Example: Contributor added a comment saying “the agent failed to get this PR right.”
 
-Input:
-You will get  agent,html_url,title,body,state for a PR. Your job is to read the title, body and state and classify it accordingly.
+## Input:
+You will be provided a json containing information for the PR.
 
-Output:
+## Criteria:
+Steps: 
+1. Read the following fields for the PR:
+"Id", "title", "body",  "state", "num_success_checks", "num_failed_checks", "num_neutral_checks", "overall_ci_status", "issue_comments", "review_comments"
+2. According to these fields and the definitions described above, categorize the reason why this PR failed.
+## Output:
 Output a single line conataing one of the 11 categories described above, without quotes.

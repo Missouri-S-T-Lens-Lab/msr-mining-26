@@ -1,0 +1,4 @@
+python anot.py prs_with_comments.json \
+  --out-json prs_labeled.json \
+  --out-tsv prs_labeled.tsv \
+  --model gpt-oss:20b
