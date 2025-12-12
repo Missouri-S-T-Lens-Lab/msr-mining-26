@@ -8,7 +8,7 @@ import ollama
 
 # ----------------------- CONFIG -----------------------
 
-PROMPT_PATH = "prompt.txt"   # classification instructions
+PROMPT_PATH = "prompt2.txt"   # classification instructions
 DEFAULT_MODEL = "gpt-oss:20b"  # or "mistral", "mistral-small", etc.
 MAX_COMMENTS = 5
 MAX_COMMENT_CHARS = 300
@@ -79,7 +79,8 @@ def classify_pr(pr, model=DEFAULT_MODEL):
     issue_comments_block = format_comments(issue_comments, "Issue")
     review_comments_block = format_comments(review_comments, "Review")
 
-    user_message = f"""
+    user_message = f""" Classify the following PR. Informations :
+    
 id: {pr.get('id', '')}
 title: {pr.get('title', '')}
 body:
@@ -158,7 +159,7 @@ def write_tsv(records, path):
             pass
         return
 
-    # Base fields you mentioned
+    # Base fields
     base_fields = [
         "id",
         "title",
