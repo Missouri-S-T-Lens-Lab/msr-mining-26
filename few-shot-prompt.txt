@@ -720,6 +720,8 @@ Example:
    ],
    "review_comments": []
 
+##Example Interpretation:
+Examples contain the metadata, comments and failure reason. Read them carefully to understand the reasoning.
 
 ## Input:
 You will receive a JSON object with fields:
