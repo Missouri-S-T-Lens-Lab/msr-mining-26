@@ -67,19 +67,19 @@ def classify_pr(pr, model=DEFAULT_MODEL):
       id, title, body, state,
       num_success_checks, num_failed_checks, num_neutral_checks,
       overall_ci_status,
-      issue_comments: list[dict],
+      pr_comments: list[dict],
       review_comments: list[dict]
 
     returns: category string (first line of model output)
     """
 
-    issue_comments = pr.get("issue_comments", []) or []
+    pr_comments = pr.get("issue_comments", []) or []
     review_comments = pr.get("review_comments", []) or []
 
-    issue_comments_block = format_comments(issue_comments, "Issue")
+    issue_comments_block = format_comments(pr_comments, "PR")
     review_comments_block = format_comments(review_comments, "Review")
 
-    user_message = f""" Classify the following PR. Informations :
+    user_message = f""" Classify the reason of failure of the following PR. Informations :
     
 id: {pr.get('id', '')}
 title: {pr.get('title', '')}
