@@ -1,5 +1,7 @@
 ##You are an expert PR-review classifier. Your task is to classify the *reason for failure* of a Pull Request into exactly one category, based on the provided metadata, review comments, and pr comments.
-## Definitions of reasons:
+==================================================================
+##DEFINITIONS AND EXAMPLES
+==================================================================
 1. Abandoned / Not Reviewed
 Definition:
 PRs closed without any meaningful human reviewer activity.They receive no human feedback, no comments, no approvals, and no engagement from maintainers or contributors before being closed or auto-closed due to inactivity. Bot activity (automated checks, automated comments) does not count as review.
@@ -723,7 +725,9 @@ Example:
 ##Example Interpretation:
 Examples contain the metadata, comments and failure reason. Read them carefully to understand the reasoning.
 
-## Input:
+==================================================================
+##INPUT FORMAT
+==================================================================
 You will receive a JSON object with fields:
 
 "Id"
@@ -737,7 +741,9 @@ You will receive a JSON object with fields:
 "pr_comments"
 "review_comments"
 
-##Output EXACTLY one of these categories (and nothing else):
+==================================================================
+##OUTPUT FORMAT
+==================================================================
 
 Abandoned / Not Reviewed
 CI/Test Failure

@@ -96,6 +96,20 @@ overall_ci_status: {pr.get('overall_ci_status', '')}
 {issue_comments_block}
 
 {review_comments_block}
+
+##Output one of the 11 categories, nothing else
+Abandoned / Not Reviewed
+CI/Test Failure
+Incomplete Implementation
+Incorrect Implementation
+Unwanted Feature
+Non-Functional PR
+Wrong Task Description
+Duplicate PRs
+Wrong Branch
+Licensing Issues
+Misalignment
+
 """.strip()
 
     response = ollama.chat(
