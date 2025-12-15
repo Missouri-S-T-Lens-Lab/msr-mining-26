@@ -1,0 +1,751 @@
+You are an expert PR-review classifier. Your task is to classify the *reason for failure* of a Pull Request into exactly one category, based on the provided metadata, review comments, and pr comments.
+## Definitions of reasons:
+1. Abandoned / Not Reviewed
+Definition:
+PRs closed without any meaningful human reviewer activity.They receive no human feedback, no comments, no approvals, and no engagement from maintainers or contributors before being closed or auto-closed due to inactivity. Bot activity (automated checks, automated comments) does not count as review.
+Hint: “Closing due to inactivity for more than 7 days.”
+Example: 
+"id": 3207905993,
+   "number": 191,
+   "agent": "claude_code",
+   "html_url": "https://github.com/MCPJam/inspector/pull/191",
+   "title": "Step 1: Create base infrastructure for MCPProxyService extraction",
+   "body": "## Summary    This PR creates the foundational infrastructure for extracting MCP transport management logic into a reusable service. This is the first step in a multi-part refactoring to improve code organization and maintainability.    ### Changes Made    • **Created shared infrastructure directory** (`server/src/shared/`)  • **Added TypeScript interfaces** for ServerConfig, MCPProxyOptions, ConnectionStatus, and Logger  • **Implemented utility functions** for session generation, configuration validation, and logging  • **Added comprehensive documentation** explaining the architecture and design decisions    ### Key Components    - `types.ts`: Core interfaces for configuration and status tracking  - `utils.ts`: Helper functions and console logger implementation  - `README.md`: Detailed documentation of the MCP Proxy Service architecture  - `index.ts`: Public API exports for the shared module    ### Benefits    - **Improved code organization** by separating transport logic from route handling  - **Type safety** with comprehensive TypeScript interfaces  - **Extensibility** for adding new transport types in future steps  - **Maintainability** through centralized configuration and error handling    ### Next Steps    This PR sets up the foundation for:  1. Step 2: Implementing TransportFactory class  2. Step 3: Creating MCPProxyService class   3. Step 4: Refactoring main server to use the new service    🤖 Generated with [Claude Code](https://claude.ai/code)    Co-Authored-By: Claude <noreply@anthropic.com>",
+   "state": "closed",
+   "failure-reason": "Abandoned/not reviewed",
+   "user_id": 58269507,
+   "user": "oso-jukumari",
+   "repo_id": 989134268,
+   "repo_url": "https://api.github.com/repos/MCPJam/inspector",
+   "num_success_checks": 1.0,
+   "num_failed_checks": 0.0,
+   "num_neutral_checks": 1.0,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 1,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 4,
+   "total_changes": 230,
+   "num_review_comments": 0,
+   "pr_comments": [],
+   "review_comments": []
+
+2. CI/Test Failure
+Definition:
+Identify PRs that fail automated build, test, or deployment checks due to issues in the submitted code. Use this category when preview builds, CI pipelines, tests, or deployment checks fail directly because of the PR changes.
+Hint: “vercel bot had a problem deploying to Preview”
+"id": 3271045504,
+   "number": 5427,
+   "agent": "claude_code",
+   "html_url": "https://github.com/RevenueCat/purchases-ios/pull/5427",
+   "title": "Address @ajpallares review feedback for promotional offers in paywalls",
+   "body": "## Summary    This PR addresses all the architectural and implementation feedback from @ajpallares' review of the promotional offers in paywalls feature.    ### Key Changes Made    **1. Architecture Improvements**  - ✅ Changed `SubscriptionHistoryTracker` visibility from `public` to `fileprivate`  - ✅ Removed unnecessary `ObservableObject` conformance from cache classes  - ✅ Enhanced `PaywallPromoOfferCacheType` protocol with `hasAnySubscriptionHistory` property  - ✅ Removed versioning complexity by consolidating into single `PaywallPromoOfferCache` class    **2. Dependency Injection Fixes**  - ✅ Updated `PaywallView` to use `self.purchaseHandler.purchases` instead of `Purchases.shared`  - ✅ Updated `PaywallPromoOfferCache` to accept `Purchases` instance instead of using singleton    **3. Module Boundaries & SPI Cleanup**  - ✅ Moved `PaywallPromoOfferCache` entirely to `RevenueCatUI` module  - ✅ Removed all `@_spi(Internal) public` annotations since cache is now internal to RevenueCatUI  - ✅ Simplified `PaywallCacheWarming` to focus on its core purpose (cache warming)    **4. Production-Ready Implementation**  - ✅ Unified `PaywallPromoOfferCacheV2` and original cache into single production class  - ✅ Integrated subscription history tracking directly into the cache  - ✅ Removed all V2 suffixes and versioning confusion  - ✅ Self-contained implementation with proper reactive updates via `@Published`    ### Architecture Before vs After    **Before:**  - `PaywallPromoOfferCache` (actor) in RevenueCat exposed via SPI  - `PaywallPromoOfferCacheV2` (class) in RevenueCat exposed via SPI   - `PaywallCacheWarming` holding reference to cache just for exposure  - Complex casting between protocol and concrete types    **After:**  - Single `PaywallPromoOfferCache` (class) entirely in RevenueCatUI  - Self-contained with integrated subscription history tracking  - `PaywallCacheWarming` focused only on cache warming responsibilities  - Clean module boundaries with no SPI exposure needed    ### Files Changed    #### Core Implementation  - `RevenueCatUI/PaywallPromoOfferCache.swift` - Unified, production-ready cache  - `Sources/Paywalls/PaywallCacheWarming.swift` - Simplified to focus on cache warming  - `Sources/Purchasing/Purchases/Purchases.swift` - Removed promotional offer cache exposure    #### UI Integration   - `RevenueCatUI/PaywallView.swift` - Updated dependency injection  - `RevenueCatUI/Templates/V2/PaywallsV2View.swift` - Simplified constructor and usage  - All V2 component views - Updated type references    #### Cleanup  - Removed `Sources/Paywalls/PaywallPromoOfferCache.swift` (old implementation)  - Updated all references throughout codebase to remove V2 suffixes    ### Testing    ✅ Full project builds successfully with `swift build`  ✅ All promotional offer functionality preserved  ✅ Cleaner architecture with better separation of concerns    This implementation is now production-ready without versioning confusion and addresses all the architectural concerns raised in the review.    🤖 Generated with [Claude Code](https://claude.ai/code)    Co-Authored-By: Claude <noreply@anthropic.com>",
+   "state": "closed",
+   "failure-reason": "CI/Test Failure",
+   "user_id": 401294,
+   "user": "joshdholtz",
+   "repo_id": 108035205,
+   "repo_url": "https://api.github.com/repos/RevenueCat/purchases-ios",
+   "num_success_checks": 1.0,
+   "num_failed_checks": 1.0,
+   "num_neutral_checks": 0.0,
+   "overall_ci_status": "failure",
+   "num_failed_or_neutral": 1,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 127,
+   "total_changes": 3093,
+   "num_review_comments": 0,
+   "pr_comments": [
+     {
+       "id": 3128714127,
+       "pr_id": 3271045504,
+       "user": "RevenueCat-Danger-Bot",
+       "user_id": 109217158,
+       "user_type": "User",
+       "created_at": "2025-07-28T19:08:15Z",
+       "body": "<!--\n  1 Error: Label the PR using one of the ...\n  0 Warnings\n  0 Messages\n  1 Markdown\n-->\n<table>\n  <thead>\n    <tr>\n      <th width=\"50\"></th>\n      <th width=\"100%\" data-danger-table=\"true\" data-kind=\"Error\">\n          1 Error\n      </th>\n     </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>:no_entry_sign:</td>\n      <td data-sticky=\"false\">Label the PR using one of the change type labels. If you are not sure which label to use, choose <em>pr:other</em>.</td>\n    </tr>\n  </tbody>\n</table>\n\n  | Label | Description |\n  |-------|-------------|\n  | *pr:feat* | A new feature. Use along with pr:breaking to force a major release. |\n  | *pr:fix* | A bug fix. Use along with pr:force_minor to force a minor release. |\n  | *pr:other* | Other changes. Catch-all for anything that doesn't fit the above categories. Releases that only contain this label will not be released. Use along with pr:force_patch, or pr:force_minor to force a patch or minor release. |\n  | *pr:RevenueCatUI* | Use along any other tag to mark a PR that only contains RevenueCatUI changes |\n  | *pr:next_release* | Preparing a new release |\n  | *pr:dependencies* | Updating a dependency |\n  | *pr:phc_dependencies* | Updating purchases-hybrid-common dependency |\n\n\n<p align=\"right\" data-meta=\"generated_by_danger\">\n  Generated by :no_entry_sign: <a href=\"https://danger.systems/\">Danger</a>\n</p>\n"
+     },
+     {
+       "id": 3129324450,
+       "pr_id": 3271045504,
+       "user": "emerge-tools[bot]",
+       "user_id": 75864722,
+       "user_type": "Bot",
+       "created_at": "2025-07-28T20:08:44Z",
+       "body": "## 3 builds increased size\n\n| Name | Version | Download | Change | Install | Change | Approval |\n| :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n| <a href=\"https://www.emergetools.com/build/7d022a37-f6e0-434f-8798-41555151ec81?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat</a><br>com.revenuecat.PaywallsTester | 1.0 (1) | 12.5 MB | ⬆️ 55.7 kB (0.45%) | 48.0 MB | ⬆️ 258.2 kB (0.54%) | N/A |\n| <a href=\"https://www.emergetools.com/build/c2e0b42c-cb62-4988-a215-23a096ceaf60?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat</a><br>com.revenuecat.PaywallsTester.mac-catalyst-scaled-to-match-ipad | 1.0 (1) | 11.5 MB | ⬆️ 60.0 kB (0.52%) | 42.8 MB | ⬆️ 253.6 kB (0.6%) | N/A |\n| <a href=\"https://www.emergetools.com/build/5074a199-58df-4e1d-af13-acb964147fb9?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat</a><br>com.revenuecat.PaywallsTester.mac-catalyst-optimized-for-mac | 1.0 (1) | 11.5 MB | ⬆️ 60.0 kB (0.52%) | 42.8 MB | ⬆️ 253.6 kB (0.6%) | N/A |\n\n\n## <a href=\"https://www.emergetools.com/build/7d022a37-f6e0-434f-8798-41555151ec81?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat 1.0 (1)</a><br>com.revenuecat.PaywallsTester\n\n<a href=\"https://www.emergetools.com/compare?head=7d022a37-f6e0-434f-8798-41555151ec81&base=92b1b404-f9af-48f6-a321-3015f1430374&sizeOpen=true&utm_source=github&utm_medium=vcs&utm_campaign=compare-size\" target=\"_blank\" rel=\"noreferrer noopener\">⚖️ Compare build</a>\n<a href=\"https://www.emergetools.com/compare?head=7d022a37-f6e0-434f-8798-41555151ec81&base=92b1b404-f9af-48f6-a321-3015f1430374&perfOpen=true&utm_source=github&utm_medium=vcs&utm_campaign=performance-compare\" target=\"_blank\" rel=\"noreferrer noopener\">⏱️ Analyze build performance</a>\n\n**Total install size change:** ⬆️ 258.2 kB (0.54%)\n**Total download size change:** ⬆️ 55.7 kB (0.45%)\n\n*Largest size changes*\n\n| Item | Install Size Change |\n| :---: | :---: |\n| DYLD.String Table | ⬆️ 129.3 kB |\n| Code Signature | ⬆️ 6.7 kB |\n| 📝 RevenueCatUI.SubscriptionHistoryTracker.SubscriptionHistoryTracke... | ⬆️ 6.2 kB |\n| DYLD.Exports | ⬆️ 4.2 kB |\n| 📝 RevenueCatUI.MyViewModel.MyViewModel | ⬆️ 1.9 kB |\n\n<details>\n  <summary>View Treemap</summary>\n  \n  [![Image of diff](https://diff-treemap-images.s3.us-west-1.amazonaws.com/org_LrH6fLXfFJKB/92b1b404-f9af-48f6-a321-3015f1430374.7d022a37-f6e0-434f-8798-41555151ec81.png)](https://www.emergetools.com/compare?head=7d022a37-f6e0-434f-8798-41555151ec81&base=92b1b404-f9af-48f6-a321-3015f1430374&sizeOpen=true&utm_source=github&utm_medium=vcs)\n  \n</details>\n\n## <a href=\"https://www.emergetools.com/build/c2e0b42c-cb62-4988-a215-23a096ceaf60?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat 1.0 (1)</a><br>com.revenuecat.PaywallsTester.mac-catalyst-scaled-to-match-ipad\n\n<a href=\"https://www.emergetools.com/compare?head=c2e0b42c-cb62-4988-a215-23a096ceaf60&base=9c97578b-4887-49c8-9e1c-a9beed9767c7&sizeOpen=true&utm_source=github&utm_medium=vcs&utm_campaign=compare-size\" target=\"_blank\" rel=\"noreferrer noopener\">⚖️ Compare build</a>\n<a href=\"https://www.emergetools.com/compare?head=c2e0b42c-cb62-4988-a215-23a096ceaf60&base=9c97578b-4887-49c8-9e1c-a9beed9767c7&perfOpen=true&utm_source=github&utm_medium=vcs&utm_campaign=performance-compare\" target=\"_blank\" rel=\"noreferrer noopener\">⏱️ Analyze build performance</a>\n\n**Total install size change:** ⬆️ 253.6 kB (0.6%)\n**Total download size change:** ⬆️ 60.0 kB (0.52%)\n\n*Largest size changes*\n\n| Item | Install Size Change |\n| :---: | :---: |\n| DYLD.String Table | ⬆️ 95.4 kB |\n| 📝 RevenueCatUI.SubscriptionHistoryTracker.SubscriptionHistoryTracke... | ⬆️ 6.6 kB |\n| Code Signature | ⬆️ 6.1 kB |\n| DYLD.Exports | ⬆️ 4.2 kB |\n| 📝 RevenueCatUI.MyViewModel.MyViewModel | ⬆️ 1.9 kB |\n\n<details>\n  <summary>View Treemap</summary>\n  \n  [![Image of diff](https://diff-treemap-images.s3.us-west-1.amazonaws.com/org_LrH6fLXfFJKB/9c97578b-4887-49c8-9e1c-a9beed9767c7.c2e0b42c-cb62-4988-a215-23a096ceaf60.png)](https://www.emergetools.com/compare?head=c2e0b42c-cb62-4988-a215-23a096ceaf60&base=9c97578b-4887-49c8-9e1c-a9beed9767c7&sizeOpen=true&utm_source=github&utm_medium=vcs)\n  \n</details>\n\n## <a href=\"https://www.emergetools.com/build/5074a199-58df-4e1d-af13-acb964147fb9?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat 1.0 (1)</a><br>com.revenuecat.PaywallsTester.mac-catalyst-optimized-for-mac\n\n<a href=\"https://www.emergetools.com/compare?head=5074a199-58df-4e1d-af13-acb964147fb9&base=1ede9ac0-2bdd-460c-9319-5b7b034ee434&sizeOpen=true&utm_source=github&utm_medium=vcs&utm_campaign=compare-size\" target=\"_blank\" rel=\"noreferrer noopener\">⚖️ Compare build</a>\n<a href=\"https://www.emergetools.com/compare?head=5074a199-58df-4e1d-af13-acb964147fb9&base=1ede9ac0-2bdd-460c-9319-5b7b034ee434&perfOpen=true&utm_source=github&utm_medium=vcs&utm_campaign=performance-compare\" target=\"_blank\" rel=\"noreferrer noopener\">⏱️ Analyze build performance</a>\n\n**Total install size change:** ⬆️ 253.6 kB (0.6%)\n**Total download size change:** ⬆️ 60.0 kB (0.52%)\n\n*Largest size changes*\n\n| Item | Install Size Change |\n| :---: | :---: |\n| DYLD.String Table | ⬆️ 95.4 kB |\n| 📝 RevenueCatUI.SubscriptionHistoryTracker.SubscriptionHistoryTracke... | ⬆️ 6.6 kB |\n| Code Signature | ⬆️ 6.1 kB |\n| DYLD.Exports | ⬆️ 4.2 kB |\n| 📝 RevenueCatUI.MyViewModel.MyViewModel | ⬆️ 1.9 kB |\n\n<details>\n  <summary>View Treemap</summary>\n  \n  [![Image of diff](https://diff-treemap-images.s3.us-west-1.amazonaws.com/org_LrH6fLXfFJKB/1ede9ac0-2bdd-460c-9319-5b7b034ee434.5074a199-58df-4e1d-af13-acb964147fb9.png)](https://www.emergetools.com/compare?head=5074a199-58df-4e1d-af13-acb964147fb9&base=1ede9ac0-2bdd-460c-9319-5b7b034ee434&sizeOpen=true&utm_source=github&utm_medium=vcs)\n  \n</details>\n\n\n---\n\n:flying_saucer: Powered by <a href=\"https://www.emergetools.com/?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">Emerge Tools</a>\n\nComment trigger: Size diff threshold of 100.00kB exceeded"
+     },
+     {
+       "id": 3129373702,
+       "pr_id": 3271045504,
+       "user": "emerge-tools[bot]",
+       "user_id": 75864722,
+       "user_type": "Bot",
+       "created_at": "2025-07-28T20:13:12Z",
+       "body": "# 📸 Snapshot Test \n## Some snapshots failed to render\n| Name | Added | Removed | Modified | Renamed | Unchanged | Errored | Approval |\n| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n| <a href=\"https://www.emergetools.com/snapshot/compare/7d022a37-f6e0-434f-8798-41555151ec81?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat</a><br>com.revenuecat.PaywallsTester | <a href=\"https://www.emergetools.com/snapshot/compare/7d022a37-f6e0-434f-8798-41555151ec81?tab=added&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/7d022a37-f6e0-434f-8798-41555151ec81?tab=removed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">12</a> | <a href=\"https://www.emergetools.com/snapshot/compare/7d022a37-f6e0-434f-8798-41555151ec81?tab=changed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">1</a> | <a href=\"https://www.emergetools.com/snapshot/compare/7d022a37-f6e0-434f-8798-41555151ec81?tab=renamed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/7d022a37-f6e0-434f-8798-41555151ec81?tab=unchanged&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">222</a> | <a href=\"https://www.emergetools.com/snapshot/compare/7d022a37-f6e0-434f-8798-41555151ec81?tab=errors&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">1</a> | ⏳ Needs approval |\n| <a href=\"https://www.emergetools.com/snapshot/compare/c2e0b42c-cb62-4988-a215-23a096ceaf60?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat</a><br>com.revenuecat.PaywallsTester.mac-catalyst-scaled-to-match-ipad | <a href=\"https://www.emergetools.com/snapshot/compare/c2e0b42c-cb62-4988-a215-23a096ceaf60?tab=added&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/c2e0b42c-cb62-4988-a215-23a096ceaf60?tab=removed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/c2e0b42c-cb62-4988-a215-23a096ceaf60?tab=changed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">3</a> | <a href=\"https://www.emergetools.com/snapshot/compare/c2e0b42c-cb62-4988-a215-23a096ceaf60?tab=renamed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/c2e0b42c-cb62-4988-a215-23a096ceaf60?tab=unchanged&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">232</a> | <a href=\"https://www.emergetools.com/snapshot/compare/c2e0b42c-cb62-4988-a215-23a096ceaf60?tab=errors&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | ⏳ Needs approval |\n| <a href=\"https://www.emergetools.com/snapshot/compare/5074a199-58df-4e1d-af13-acb964147fb9?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">RevenueCat</a><br>com.revenuecat.PaywallsTester.mac-catalyst-optimized-for-mac | <a href=\"https://www.emergetools.com/snapshot/compare/5074a199-58df-4e1d-af13-acb964147fb9?tab=added&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/5074a199-58df-4e1d-af13-acb964147fb9?tab=removed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/5074a199-58df-4e1d-af13-acb964147fb9?tab=changed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/5074a199-58df-4e1d-af13-acb964147fb9?tab=renamed&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | <a href=\"https://www.emergetools.com/snapshot/compare/5074a199-58df-4e1d-af13-acb964147fb9?tab=unchanged&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">235</a> | <a href=\"https://www.emergetools.com/snapshot/compare/5074a199-58df-4e1d-af13-acb964147fb9?tab=errors&utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">0</a> | N/A |\n\n\n---\n\n:flying_saucer: Powered by <a href=\"https://www.emergetools.com/?utm_source=github&utm_medium=vcs\" target=\"_blank\" rel=\"noreferrer noopener\">Emerge Tools</a>"
+     },
+     {
+       "id": 3130312438,
+       "pr_id": 3271045504,
+       "user": "joshdholtz",
+       "user_id": 401294,
+       "user_type": "User",
+       "created_at": "2025-07-29T01:59:34Z",
+       "body": "- "
+     }
+   ],
+   "review_comments": []
+
+3. Incomplete Implementation
+Definition:
+PR where reviewers explicitly state that the implementation is incomplete, low-quality, missing required logic, missing tests, or insufficient to meet project requirements.
+Hints:
+“This implementation is missing the validation logic described in the issue.”
+“There are no unit tests included, and test coverage is required for all new features.”
+“The PR introduces incomplete API endpoints; responses are not implemented.”
+Example:
+"id": 2919829243,
+   "number": 2373,
+   "agent": "devin",
+   "html_url": "https://github.com/crewAIInc/crewAI/pull/2373",
+   "title": "Fix #2372: Update OpenTelemetry version constraints for compatibility with newer versions",
+   "body": "This PR fixes issue #2372 by updating the OpenTelemetry version constraints in pyproject.toml to prevent installation of incompatible versions while allowing newer compatible versions.    ## Changes  - Updated version constraints for opentelemetry-api, opentelemetry-sdk, and opentelemetry-exporter-otlp-proto-http to use >=1.22.0,<2.0.0  - Added tests to verify compatibility with different OpenTelemetry versions    ## Testing  - Tested imports with OpenTelemetry 1.31.0  - Verified that the telemetry implementation works with newer versions    Fixes #2372    Link to Devin run: https://app.devin.ai/sessions/6f271fa04e82478ba73f836dbf3af805",
+   "state": "closed",
+   "failure-reason": "Incomplete implementation",
+   "user_id": 158243242,
+   "user": "devin-ai-integration[bot]",
+   "repo_id": 710601088,
+   "repo_url": "https://api.github.com/repos/crewAIInc/crewAI",
+   "num_success_checks": 4.0,
+   "num_failed_checks": 0.0,
+   "num_neutral_checks": 0.0,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 0,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 3,
+   "total_changes": 184,
+   "num_review_comments": 0,
+   "pr_comments": [
+     {
+       "id": 2724266875,
+       "pr_id": 2919829243,
+       "user": "devin-ai-integration[bot]",
+       "user_id": 158243242,
+       "user_type": "Bot",
+       "created_at": "2025-03-14T10:28:22Z",
+       "body": "### 🤖 Devin AI Engineer\n\nI'll be helping with this pull request! Here's what you should know:\n\n✅ I will automatically:\n- Address comments on this PR. Add \"(aside)\" to your comment to have me ignore it.\n- Look at CI failures and help fix them\n\nNote: I can only respond to comments from users who have write access to this repository.\n\n⚙️ Control Options:\n- [ ] Disable automatic comment and CI monitoring\n"
+     },
+     {
+       "id": 2724270240,
+       "pr_id": 2919829243,
+       "user": "joaomdmoura",
+       "user_id": 667063,
+       "user_type": "User",
+       "created_at": "2025-03-14T10:30:01Z",
+       "body": "Disclaimer: This review was made by a crew of AI Agents.\n\n# Code Review Comment: OpenTelemetry Version Constraints Update\n\n## Overview\nThe recent changes focus on enhancing OpenTelemetry dependency management and introducing compatibility tests. The modifications include updates to `pyproject.toml` and the addition of new test files. Overall, these changes are quite promising, and several improvements and suggestions could further enrich the codebase.\n\n### 1. Update to `pyproject.toml`\n\n#### Positive Aspects\n- The inclusion of upper version bounds for all OpenTelemetry packages is commendable as it improves compatibility control. \n- There is a consistent approach to version constraints, ensuring users are not stuck on too many old versions while also providing backward compatibility.\n\n#### Suggestions for Improvement\n- **Specificity in Version Constraints**: \nConsider revising the version constraint to a more precise range. For example:\n```toml\n# Current:\n\"opentelemetry-api>=1.22.0,<2.0.0\"\n\n# Recommended:\n\"opentelemetry-api>=1.22.0,<1.25.0\"  # Pin to known compatible versions\n```\nThis change could help minimize potential issues with future releases by narrowing compatibility.\n\n### 2. New Test Files: `test_opentelemetry_compatibility.py`\n\n#### Strengths\n- The tests provide a comprehensive import validity check for OpenTelemetry modules and ensure the expected initialization of the telemetry classes.\n\n#### Issues and Recommendations\n1. **Enhance Error Handling**:\n```python\n# Current:\ndef test_opentelemetry_imports():\n    from opentelemetry import trace\n    # ... other imports ...\n\n# Recommended:\ndef test_opentelemetry_imports():\n    try:\n        from opentelemetry import trace\n        # ... other imports ...\n    except ImportError as e:\n        pytest.fail(f\"Failed to import OpenTelemetry modules: {e}\")\n```\nAdding robust error handling can greatly assist in debugging and reporting.\n\n2. **Completeness of Telemetry Testing**:\nExpand the assertions in the telemetry initialization tests ensure that all critical states are being verified:\n```python\n# Current:\ndef test_telemetry_class_initialization():\n    telemetry = Telemetry()\n    assert hasattr(telemetry, 'ready')\n    assert hasattr(telemetry, 'trace_set')\n\n# Recommended:\ndef test_telemetry_class_initialization():\n    telemetry = Telemetry()\n    assert hasattr(telemetry, 'ready')\n    assert hasattr(telemetry, 'trace_set')\n    assert telemetry.ready is False  # Verify initial state\n```\nThis consideration is essential for ensuring that your implementation behaves as intended.\n\n3. **Add Additional Test Cases**:\nInclude further testing aspects such as telemetry configuration and span creation to cover a broader spectrum:\n```python\ndef test_telemetry_configuration():\n    telemetry = Telemetry(disable=True)\n    assert telemetry.ready is False\n    \ndef test_span_creation():\n    telemetry = Telemetry()\n    telemetry.set_tracer()\n    with telemetry.tracer.start_as_current_span(\"test_operation\") as span:\n        assert span.is_recording()\n```\n\n### General Recommendations\n\n1. **Documentation**: \n   - Enrich the documentation within the test functions to clarify the expected behavior.\n   - Provide an overview of the rationale for version constraints for the benefit of future maintainers.\n\n2. **Test Coverage**:\n   - Consider implementing additional integration tests with real OpenTelemetry collectors and also negative test cases for robustness.\n\n3. **Version Management**:\n   - Add a version compatibility matrix and clearly document any version upgrade paths to assist users transitioning from older versions.\n\n### Security and Performance Considerations\n- Ensure that the OpenTelemetry versions used do not expose known vulnerabilities.\n- Monitor performance implications in terms of initialization and operations when interacting with OpenTelemetry libraries.\n\nOverall, while the changes presented are a positive step forward, there's plenty of room to strengthen test coverage and robustness, along with clearer documentation. I look forward to seeing how these enhancements are implemented!"
+     },
+     {
+       "id": 2744011949,
+       "pr_id": 2919829243,
+       "user": "bhancockio",
+       "user_id": 109994880,
+       "user_type": "User",
+       "created_at": "2025-03-21T17:28:32Z",
+       "body": "Fixed!"
+     }
+   ],
+   "review_comments": []
+
+4. Incorrect Implementation
+Definition:
+PR where the technical implementation is wrong — it does not solve the requested technical problem even though the task description was correct.
+Hint:
+Reviewer comment: “This does not address the issue described — these files are unrelated.”
+"id": 3150621549,
+   "number": 464,
+   "agent": "cursor",
+   "html_url": "https://github.com/WorkflowAI/WorkflowAI/pull/464",
+   "title": "Discuss bug resolution for Next.js server",
+   "body": "A discussion file, `.discussion/clerk-publishable-key-missing.md`, was created to address a `Missing publishableKey` error encountered when starting the `docsv2` Next.js server.        The file:    * Identifies the root cause as missing Clerk environment variables, specifically `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, and the absence of a `.env` file.    * Highlights relevant files such as `client/src/middleware.ts` and `.env.sample`.    * Proposes three solutions: creating a local `.env` from `.env.sample`, setting up full Clerk authentication, or modifying `docsv2` configuration.    * Includes an immediate fix: creating a minimal `.env` file with `NEXT_PUBLIC_DISABLE_AUTHENTICATION=true` to bypass authentication and allow the server to start.    * Poses questions regarding project structure, authentication requirements for the docs site, and environment management for future discussion.",
+   "state": "closed",
+   "failure-reason": "Incorrect implementation",
+   "user_id": 11172,
+   "user": "pierrevalade",
+   "repo_id": 899127822,
+   "repo_url": "https://api.github.com/repos/WorkflowAI/WorkflowAI",
+   "num_success_checks": 7.0,
+   "num_failed_checks": 0.0,
+   "num_neutral_checks": 5.0,
+   "overall_ci_status": "success",
+   "num_failed_or_neutral": 5,
+   "review_additions": 14,
+   "review_deletions": 0,
+   "review_total_changes": 14,
+   "num_files_changed": 1,
+   "total_changes": 96,
+   "num_review_comments": 2,
+   "pr_comments": [
+     {
+       "id": 2977311236,
+       "pr_id": 3150621549,
+       "user": "vercel[bot]",
+       "user_id": 35613825,
+       "user_type": "Bot",
+       "created_at": "2025-06-16T16:37:25Z",
+       "body": "[vc]: #z3lPKt5Y4qERi2P+BUnZJeuIVPXijFiCb9E3FItrGu4=:eyJpc01vbm9yZXBvIjp0cnVlLCJ0eXBlIjoiZ2l0aHViIiwicHJvamVjdHMiOlt7Im5hbWUiOiJ3b3JrZmxvd2FpLmNvbSIsInJvb3REaXJlY3RvcnkiOiJjbGllbnQiLCJpbnNwZWN0b3JVcmwiOiJodHRwczovL3ZlcmNlbC5jb20vd29ya2Zsb3dhaS93b3JrZmxvd2FpLmNvbS85QU4zY25MVUNON1VIUkhFUGdZRlJNdzlDd3N0IiwicHJldmlld1VybCI6IndvcmtmbG93YWljb20tZ2l0LWN1cnNvci1kaXNjdXNzLWJ1Zy1yZXNvbHV0aS1lNzdlMzEtd29ya2Zsb3dhaS52ZXJjZWwuYXBwIiwibmV4dENvbW1pdFN0YXR1cyI6IkRFUExPWUVEIiwibGl2ZUZlZWRiYWNrIjp7InJlc29sdmVkIjowLCJ1bnJlc29sdmVkIjowLCJ0b3RhbCI6MCwibGluayI6IndvcmtmbG93YWljb20tZ2l0LWN1cnNvci1kaXNjdXNzLWJ1Zy1yZXNvbHV0aS1lNzdlMzEtd29ya2Zsb3dhaS52ZXJjZWwuYXBwIn19LHsibmFtZSI6IndvcmtmbG93YWktZG9jcyIsInJvb3REaXJlY3RvcnkiOiJkb2NzdjIiLCJpbnNwZWN0b3JVcmwiOiJodHRwczovL3ZlcmNlbC5jb20vd29ya2Zsb3dhaS93b3JrZmxvd2FpLWRvY3MvQUdEam95U2FxYmVla1dSMlp5RjJBVVRtalZ5cCIsInByZXZpZXdVcmwiOiJ3b3JrZmxvd2FpLWRvY3MtZ2l0LWN1cnNvci1kaXNjdXNzLWJ1Zy1yZXNvbHUtZGM0NTEwLXdvcmtmbG93YWkudmVyY2VsLmFwcCIsIm5leHRDb21taXRTdGF0dXMiOiJERVBMT1lFRCIsImxpdmVGZWVkYmFjayI6eyJyZXNvbHZlZCI6MCwidW5yZXNvbHZlZCI6MCwidG90YWwiOjAsImxpbmsiOiJ3b3JrZmxvd2FpLWRvY3MtZ2l0LWN1cnNvci1kaXNjdXNzLWJ1Zy1yZXNvbHUtZGM0NTEwLXdvcmtmbG93YWkudmVyY2VsLmFwcCJ9fV19\n**The latest updates on your projects**. Learn more about [Vercel for Git ↗︎](https://vercel.link/github-learn-more)\n\n| Name | Status | Preview | Comments | Updated (UTC) |\n| :--- | :----- | :------ | :------- | :------ |\n| **workflowai-docs** | ✅ Ready ([Inspect](https://vercel.com/workflowai/workflowai-docs/AGDjoySaqbeekWR2ZyF2AUTmjVyp)) | [Visit Preview](https://workflowai-docs-git-cursor-discuss-bug-resolu-dc4510-workflowai.vercel.app) | 💬 [**Add feedback**](https://vercel.live/open-feedback/workflowai-docs-git-cursor-discuss-bug-resolu-dc4510-workflowai.vercel.app?via=pr-comment-feedback-link) | Jun 16, 2025 4:54pm |\n| **workflowai.com** | ✅ Ready ([Inspect](https://vercel.com/workflowai/workflowai.com/9AN3cnLUCN7UHRHEPgYFRMw9Cwst)) | [Visit Preview](https://workflowaicom-git-cursor-discuss-bug-resoluti-e77e31-workflowai.vercel.app) | 💬 [**Add feedback**](https://vercel.live/open-feedback/workflowaicom-git-cursor-discuss-bug-resoluti-e77e31-workflowai.vercel.app?via=pr-comment-feedback-link) | Jun 16, 2025 4:54pm |\n\n\n"
+     }
+   ],
+   "review_comments": [
+     {
+       "id": 2150566611,
+       "pull_request_review_id": 2933038023,
+       "user": "guillaq",
+       "user_type": "User",
+       "diff_hunk": "@@ -0,0 +1,96 @@\n+# 🔐 Clerk Authentication Issue: Missing publishableKey\n+\n+**Discussion with <@U0618AW12SH>**\n+\n+## 🐛 Problem Description\n+\n+When running `cd docsv2 && yarn install`, the Next.js server fails to start with the following error:",
+       "path": ".discussion/clerk-publishable-key-missing.md",
+       "position": 7.0,
+       "original_position": 7,
+       "commit_id": "e8c1410c086463cb3121584a2ba8cf7eeafd77ca",
+       "original_commit_id": "e8c1410c086463cb3121584a2ba8cf7eeafd77ca",
+       "body": "That would be very strange. `yarn install` does not start a development server.\r\n\r\nThe [middleware](client/src/middleware.ts) that is the source of the issue supposedly is also not included when running the docs.",
+       "pull_request_url": "https://api.github.com/repos/WorkflowAI/WorkflowAI/pulls/464",
+       "created_at": "2025-06-16T18:06:17Z",
+       "updated_at": "2025-06-16T18:06:17Z",
+       "in_reply_to_id": null
+     },
+     {
+       "id": 2150620545,
+       "pull_request_review_id": 2933129716,
+       "user": "pierrevalade",
+       "user_type": "User",
+       "diff_hunk": "@@ -0,0 +1,96 @@\n+# 🔐 Clerk Authentication Issue: Missing publishableKey\n+\n+**Discussion with <@U0618AW12SH>**\n+\n+## 🐛 Problem Description\n+\n+When running `cd docsv2 && yarn install`, the Next.js server fails to start with the following error:",
+       "path": ".discussion/clerk-publishable-key-missing.md",
+       "position": 7.0,
+       "original_position": 7,
+       "commit_id": "e8c1410c086463cb3121584a2ba8cf7eeafd77ca",
+       "original_commit_id": "e8c1410c086463cb3121584a2ba8cf7eeafd77ca",
+       "body": "sorry, you're right!\r\n\r\nI try again asking cursor:\r\n> read `docs2/README` and start the dev server\r\n\r\nand the server was started correctly and the documentation was available as expected. \r\n\r\nI'll close this issue now.",
+       "pull_request_url": "https://api.github.com/repos/WorkflowAI/WorkflowAI/pulls/464",
+       "created_at": "2025-06-16T18:36:30Z",
+       "updated_at": "2025-06-16T18:36:30Z",
+       "in_reply_to_id": 2150566611.0
+     }
+   ]
+
+5. Unwanted Feature
+Definition:
+PR adds functionality that maintainers decide not to include because the feature is not aligned with project direction, not planned, or no longer needed.
+Hints:
+“Actually, we won’t move forward with this feature. Closing the PR and the related issue as ‘not planned.’”
+“Close the PR and the issue (mark as ‘not planned’).”
+Example:
+"id": 3212306696,
+   "number": 2307,
+   "agent": "claude_code",
+   "html_url": "https://github.com/modelcontextprotocol/servers/pull/2307",
+   "title": "Fix: Resolve browser multiplication issue in Puppeteer MCP server",
+   "body": "## Problem  The Puppeteer MCP server was creating multiple Chrome browser instances with each tool call instead of reusing existing instances, leading to resource exhaustion and performance issues.    ### Symptoms  - Chrome process count growing with each Puppeteer tool call  - System resource exhaustion (memory, CPU)  - Performance degradation over time  - Multiple browser windows opening in non-headless mode    ## Root Cause  The `ensureBrowser()` function had several critical issues:  1. **Flawed browser restart logic**: New browsers were launched without properly closing existing ones  2. **No browser health validation**: Dead browser instances were not detected  3. **Missing process cleanup**: Orphaned Chrome processes accumulated  4. **Race conditions**: Multiple concurrent tool calls could trigger multiple browser launches    ## Solution  This PR implements a comprehensive fix with the following improvements:    ### 1. Browser Health Monitoring  - Added `isBrowserHealthy()` function to validate browser connectivity and responsiveness  - Checks both connection status and ability to retrieve pages with timeout protection    ### 2. Launch Concurrency Protection  - Implemented `browserLaunching` flag to prevent concurrent browser launches  - Ensures only one browser launch can occur at a time  - Subsequent calls wait for the launch to complete    ### 3. Enhanced Graceful Cleanup  - Improved browser closing with 5-second timeout protection  - Falls back to process-level cleanup if graceful close fails  - Added 500ms delay after cleanup to ensure proper resource release    ### 4. Process Signal Handlers  - Added handlers for SIGINT, SIGTERM, SIGHUP, and uncaught exceptions  - Ensures proper cleanup on server shutdown  - Prevents orphaned processes on unexpected exits    ### 5. Chrome Process Cleanup  - Implemented `cleanupChromeProcesses()` to kill orphaned Chrome instances  - Uses platform-specific commands to ensure cleanup  - Called on both normal and error paths    ## Testing  Tested the fix extensively:  - ✅ Multiple rapid tool calls (navigate, screenshot, evaluate)  - ✅ Verified stable browser count (no multiplication)  - ✅ Tested server restart scenarios  - ✅ Confirmed backward compatibility  - ✅ All existing functionality preserved    ### Before Fix  - Started with 6 Chrome processes  - After 4 tool calls: 15 processes  - After 7 tool calls: 15+ processes (continuously growing)    ### After Fix  - Stable at 15 processes regardless of tool call count  - Proper reuse of existing browser instance  - Clean shutdown with no orphaned processes    ## Breaking Changes  None - this is a backward-compatible bug fix that maintains all existing APIs and behavior.    ## Notes  - The fix is applied to the TypeScript source in the `archive-servers` branch  - The compiled JavaScript output has been tested and verified  - The same issue likely affects the npm-published version of `@modelcontextprotocol/server-puppeteer`    🤖 Generated with [Claude Code](https://claude.ai/code)    Co-Authored-By: Claude <noreply@anthropic.com>",
+   "state": "closed",
+   "failure-reason": "Unwanted feature",
+   "user_id": 144542146,
+   "user": "zitrono",
+   "repo_id": 890668799,
+   "repo_url": "https://api.github.com/repos/modelcontextprotocol/servers",
+   "num_success_checks": null,
+   "num_failed_checks": null,
+   "num_neutral_checks": null,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 0,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 1,
+   "total_changes": 170,
+   "num_review_comments": 0,
+   "pr_comments": [
+     {
+       "id": 3062670155,
+       "pr_id": 3212306696,
+       "user": "olaservo",
+       "user_id": 16480113,
+       "user_type": "User",
+       "created_at": "2025-07-11T15:06:15Z",
+       "body": "Hi @zitrono , the Puppeteer reference server has been archived and is no longer being maintained, so I would recommend maintaining your own fork instead.  Thanks!"
+     }
+   ],
+   "review_comments": []
+
+6. Non-Functional PR
+Definition:
+PR only provides setup, config changes, boilerplate, scaffolding, or other non-functional contributions. Used for PRs that do not include meaningful feature or bug-fix implementation.
+Hints:
+“It's just a test of Cursor-Slack integration.”
+“Delete the erroneous file @copilot”
+Example:
+"id": 3137270371,
+   "number": 410,
+   "agent": "openai_codex",
+   "html_url": "https://github.com/mochilang/mochi/pull/410",
+   "title": "Update FFI docs",
+   "body": "## Summary  - document Go and TypeScript examples in the FFI guide    ## Testing  - `go test ./...`    ------  https://chatgpt.com/codex/tasks/task_e_68499f40cfd88320b84fb43ab0559cc5",
+   "state": "closed",
+   "failure-reason": "Non-Functional PR",
+   "user_id": 1218621,
+   "user": "tamnd",
+   "repo_id": 985853139,
+   "repo_url": "https://api.github.com/repos/mochilang/mochi",
+   "num_success_checks": null,
+   "num_failed_checks": null,
+   "num_neutral_checks": null,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 0,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 1,
+   "total_changes": 20,
+   "num_review_comments": 0,
+   "pr_comments": [],
+   "review_comments": []
+
+7. Wrong Task Description
+Definition:
+PR description misrepresents or misunderstands the intended task. Use when the PR description itself demonstrates incorrect understanding.
+Hint: “Closing this PR as it was created without proper consideration.”
+Example:
+"id": 3206405282,
+   "number": 96,
+   "agent": "claude_code",
+   "html_url": "https://github.com/fireship-io/flamethrower/pull/96",
+   "title": "Add comprehensive live demo with GitHub Pages deployment",
+   "body": "## Summary  Resolves issue #91 by implementing a comprehensive interactive demo site with GitHub Pages deployment, significantly improving project accessibility and user experience.    ## Problem  Users cannot easily explore Flamethrower functionality without local setup, creating a barrier to adoption and contribution. The lack of a live demo makes it difficult for developers to understand the performance benefits and features.    ## Solution  Created a complete interactive demo featuring:    ### 🎯 Demo Features  - **Interactive Experience**: Live navigation with real-time performance metrics  - **Debug Panel**: Comprehensive debugging tools (double-click logo or Ctrl+D)  - **Performance Monitoring**: Route changes, prefetch events, and load time tracking  - **Visual Design**: Modern, responsive design with accessibility support    ### 📱 Demo Pages  - **Home** (`/demo/`): Overview with live statistics and interactive controls  - **Features** (`/demo/pages/features.html`): Detailed feature explanations with examples  - **Performance** (`/demo/pages/performance.html`): Comprehensive metrics and benchmarks  - **About** (`/demo/pages/about.html`): Project information and getting started guide    ### 🔧 Technical Implementation  - **Progressive Enhancement**: Works without JavaScript  - **GitHub Pages Deployment**: Automated via GitHub Actions  - **Performance Optimized**: Preloading, caching, and lazy loading  - **Cross-browser Compatibility**: Tested across modern browsers    ## Changes  - ✅ Created comprehensive demo site structure  - ✅ Implemented interactive performance monitoring  - ✅ Added GitHub Actions workflow for automated deployment  - ✅ Created responsive, accessible design  - ✅ Added debug panel for development insights  - ✅ Implemented SEO optimization with meta tags  - ✅ Added comprehensive documentation    ## File Structure  ```  demo/  ├── index.html # Main landing page  ├── assets/  │ ├── style.css # Comprehensive styling  │ └── demo.js # Demo functionality  ├── pages/  │ ├── features.html # Feature demonstrations  │ ├── performance.html # Performance metrics  │ └── about.html # Project information  └── README.md # Demo documentation  ```    ## Deployment  - **GitHub Pages**: Automated deployment on push to main  - **Custom 404**: User-friendly 404 page  - **URL Structure**: `/flamethrower/demo/` for easy access    ## Test Plan  - [x] Cross-browser testing (Chrome, Firefox, Safari, Edge)  - [x] Mobile responsiveness verification  - [x] Accessibility testing (WCAG 2.1 AA compliance)  - [x] Performance testing with Lighthouse  - [x] GitHub Pages deployment verification    ## Impact  - **User Experience**: Dramatically improved project accessibility  - **Developer Onboarding**: Easier understanding of features and benefits  - **Community Engagement**: Lower barrier to contribution  - **SEO**: Better search engine visibility  - **Performance**: Demonstrates real-world performance benefits    ## References  - Resolves #91  - Live Demo URL: Will be available at `https://[username].github.io/flamethrower/demo/`    🤖 Generated with [Claude Code](https://claude.ai/code)    Co-Authored-By: Claude <noreply@anthropic.com>",
+   "state": "closed",
+   "failure-reason": "Wrong task description",
+   "user_id": 44088355,
+   "user": "rlmsinclair",
+   "repo_id": 525447487,
+   "repo_url": "https://api.github.com/repos/fireship-io/flamethrower",
+   "num_success_checks": null,
+   "num_failed_checks": null,
+   "num_neutral_checks": null,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 0,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 8,
+   "total_changes": 2894,
+   "num_review_comments": 0,
+   "pr_comments": [
+     {
+       "id": 3042314360,
+       "pr_id": 3206405282,
+       "user": "rlmsinclair",
+       "user_id": 44088355,
+       "user_type": "User",
+       "created_at": "2025-07-06T18:02:51Z",
+       "body": "### Dear @fireship-io: I Built Your Next Viral Video\n\n**Title**: \"I Accidentally Solved Web Performance\"\n**Duration**: 100 seconds\n**Views**: 1M+ guaranteed\n\nWhile fixing Flamethrower bugs, I discovered something that shouldn't be possible: **7x performance gains with zero complexity**.\n\nNo build tools. No config files. No existential crisis.\n\nJust `python3 -m http.server` and suddenly your website moves like it's 2124.\n\n**The Numbers:**\n- JavaScript: \"I'm trying my best\" 🥺\n- WebAssembly: \"Hold my binary\" 🍺\n- Performance: 📈📈📈📈📈📈📈 (literally off the charts)\n\nI know you're always looking for that perfect intersection of mind-blowing tech and accessible explanation. This is it. WebAssembly that your mom could deploy.\n\nPlus, I made memes. Good ones.\n\n**The proof is live**: https://gist.github.com/rlmsinclair/02a9bd2ddc0270922bc7cac74fcd6e87\n\nSave it as `demo.html`, run `python3 -m http.server`, open `localhost:8000/demo.html`. One click and you'll understand why this changes everything.\n\nReady to break the internet (in a good way)?"
+     },
+     {
+       "id": 3042894287,
+       "pr_id": 3206405282,
+       "user": "rlmsinclair",
+       "user_id": 44088355,
+       "user_type": "User",
+       "created_at": "2025-07-06T22:10:24Z",
+       "body": "Closing this PR as it was created without proper consideration. Apologies for the noise."
+     }
+   ],
+   "review_comments": []
+
+8. Duplicate PRs
+Definition:
+PRs closed because their work is already covered by another PR. Reviewers explicitly reference another PR that implements the same change.
+Hints:
+“Split the work and replaced it with newer PRs (#715 and #716)”
+“Accidental duplicate of PR #3200”
+Example:
+"id": 3147421099,
+   "number": 783,
+   "agent": "claude_code",
+   "html_url": "https://github.com/eyaltoledano/claude-task-master/pull/783",
+   "title": "feat: add Claude Code SDK provider integration",
+   "body": "## Summary    This PR integrates the Claude Code SDK provider from PR #777, enabling API-key-free usage of task-master-ai for users who have Claude Code installed.    ## Changes    - ✨ **Claude Code Provider Integration**: Add new ClaudeCodeProvider class based on PR #777  - 🔧 **Provider Configuration**: Update ai-services-unified.js to include claude-code in PROVIDERS  - 🔑 **API Key Handling**: Update config-manager to recognize claude-code doesn't need API keys  - 🐛 **EPIPE Error Fixes**: Fix stream errors in displayUpgradeNotification and dev.js  - 📊 **Telemetry Compatibility**: Add inputTokens/outputTokens fields for proper telemetry reporting  - ✅ **Test Coverage**: Add ClaudeCodeProvider mock and update tests    ## Technical Details    The implementation:  - Uses the `@anthropic-ai/claude-code` SDK for model access  - Provides a seamless integration for Claude Code users without requiring API keys  - Maintains compatibility with the existing provider architecture  - Includes proper error handling and telemetry support    ## Testing    - All 33 test suites pass (328 tests)  - Tested with task expansion in real projects  - EPIPE errors resolved when piping output    ## Credits    Based on:  - PR #777 by @neno-is-ooo - Original Claude Code provider implementation  - PR #649 - Related improvements    ## Related Issues    Addresses the need for API-key-free usage when Claude Code is available locally.    🤖 Generated with [Claude Code](https://claude.ai/code)    Co-Authored-By: Claude <noreply@anthropic.com>",
+   "state": "closed",
+   "failure-reason": "Duplicate PRs",
+   "user_id": 203526493,
+   "user": "apple-techie",
+   "repo_id": 942837343,
+   "repo_url": "https://api.github.com/repos/eyaltoledano/claude-task-master",
+   "num_success_checks": null,
+   "num_failed_checks": null,
+   "num_neutral_checks": null,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 0,
+   "review_additions": 14,
+   "review_deletions": 6,
+   "review_total_changes": 20,
+   "num_files_changed": 246,
+   "total_changes": 45142,
+   "num_review_comments": 6,
+   "pr_comments": [
+     {
+       "id": 2973713944,
+       "pr_id": 3147421099,
+       "user": "changeset-bot[bot]",
+       "user_id": 49419645,
+       "user_type": "Bot",
+       "created_at": "2025-06-15T11:55:32Z",
+       "body": "###  🦋  Changeset detected\n\nLatest commit: 2e314e33c4b4eb86a8119af9697ebbaed5905dc5\n\n**The changes in this PR will be included in the next version bump.**\n\n<details><summary>This PR includes changesets to release 1 package</summary>\n\n  | Name           | Type  |\n| -------------- | ----- |\n| task-master-ai | Minor |\n\n</details>\n\nNot sure what this means? [Click here  to learn what changesets are](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md).\n\n[Click here if you're a maintainer who wants to add another changeset to this PR](https://github.com/apple-techie/claude-task-master/new/feat/claude-code-provider-pr?filename=.changeset/old-rabbits-cough.md&value=---%0A%22task-master-ai%22%3A%20patch%0A---%0A%0Afeat%3A%20add%20Claude%20Code%20SDK%20provider%20integration%0A)\n\n"
+     }
+   ],
+   "review_comments": [
+     {
+       "id": 2147727534,
+       "pull_request_review_id": 2929274638,
+       "user": "apple-techie",
+       "user_type": "User",
+       "diff_hunk": "@@ -480,8 +480,8 @@ function getParametersForRole(role, explicitRoot = null) {\n  */\n function isApiKeySet(providerName, session = null, projectRoot = null) {\n \t// Define the expected environment variable name for each provider\n-\tif (providerName?.toLowerCase() === 'ollama') {\n-\t\treturn true; // Indicate key status is effectively \"OK\"\n+\tif (providerName?.toLowerCase() === 'ollama' || providerName?.toLowerCase() === 'claude-code') {",
+       "path": "scripts/modules/config-manager.js",
+       "position": null,
+       "original_position": 6,
+       "commit_id": "2e314e33c4b4eb86a8119af9697ebbaed5905dc5",
+       "original_commit_id": "a084953dcf1a0ccfe0e6641c0da83327ba3bdb8e",
+       "body": "Updated these as per your request.",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/783",
+       "created_at": "2025-06-15T12:04:34Z",
+       "updated_at": "2025-06-15T12:04:34Z",
+       "in_reply_to_id": 2147705282.0
+     },
+     {
+       "id": 2147727859,
+       "pull_request_review_id": 2929274895,
+       "user": "apple-techie",
+       "user_type": "User",
+       "diff_hunk": "@@ -493,7 +493,8 @@ function isApiKeySet(providerName, session = null, projectRoot = null) {\n \t\tazure: 'AZURE_OPENAI_API_KEY',\n \t\topenrouter: 'OPENROUTER_API_KEY',\n \t\txai: 'XAI_API_KEY',\n-\t\tvertex: 'GOOGLE_API_KEY' // Vertex uses the same key as Google\n+\t\tvertex: 'GOOGLE_API_KEY', // Vertex uses the same key as Google\n+\t\t'claude-code': null // Claude Code doesn't need an API key",
+       "path": "scripts/modules/config-manager.js",
+       "position": null,
+       "original_position": 17,
+       "commit_id": "2e314e33c4b4eb86a8119af9697ebbaed5905dc5",
+       "original_commit_id": "a084953dcf1a0ccfe0e6641c0da83327ba3bdb8e",
+       "body": "and this.",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/783",
+       "created_at": "2025-06-15T12:04:41Z",
+       "updated_at": "2025-06-15T12:04:42Z",
+       "in_reply_to_id": 2147705287.0
+     },
+     {
+       "id": 2147728252,
+       "pull_request_review_id": 2929275374,
+       "user": "apple-techie",
+       "user_type": "User",
+       "diff_hunk": "@@ -18,5 +18,17 @@ if (process.env.DEBUG === '1') {\n \n import { runCLI } from './modules/commands.js';\n \n+// Handle EPIPE errors gracefully when output is piped\n+process.on('EPIPE', () => {\n+\tprocess.exit(0);\n+});",
+       "path": "scripts/dev.js",
+       "position": null,
+       "original_position": 7,
+       "commit_id": "2e314e33c4b4eb86a8119af9697ebbaed5905dc5",
+       "original_commit_id": "a084953dcf1a0ccfe0e6641c0da83327ba3bdb8e",
+       "body": "As well as this too!",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/783",
+       "created_at": "2025-06-15T12:04:52Z",
+       "updated_at": "2025-06-15T12:04:53Z",
+       "in_reply_to_id": 2147705293.0
+     },
+     {
+       "id": 2147705282,
+       "pull_request_review_id": 2929253940,
+       "user": "Copilot",
+       "user_type": "Bot",
+       "diff_hunk": "@@ -480,8 +480,8 @@ function getParametersForRole(role, explicitRoot = null) {\n  */\n function isApiKeySet(providerName, session = null, projectRoot = null) {\n \t// Define the expected environment variable name for each provider\n-\tif (providerName?.toLowerCase() === 'ollama') {\n-\t\treturn true; // Indicate key status is effectively \"OK\"\n+\tif (providerName?.toLowerCase() === 'ollama' || providerName?.toLowerCase() === 'claude-code') {",
+       "path": "scripts/modules/config-manager.js",
+       "position": 1.0,
+       "original_position": 6,
+       "commit_id": "2e314e33c4b4eb86a8119af9697ebbaed5905dc5",
+       "original_commit_id": "a084953dcf1a0ccfe0e6641c0da83327ba3bdb8e",
+       "body": "[nitpick] Repeated calls to `providerName?.toLowerCase()` can be simplified by normalizing `providerName.toLowerCase()` into a local variable at the start of the function.",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/783",
+       "created_at": "2025-06-15T11:57:44Z",
+       "updated_at": "2025-06-15T11:57:45Z",
+       "in_reply_to_id": null
+     },
+     {
+       "id": 2147705287,
+       "pull_request_review_id": 2929253940,
+       "user": "Copilot",
+       "user_type": "Bot",
+       "diff_hunk": "@@ -493,7 +493,8 @@ function isApiKeySet(providerName, session = null, projectRoot = null) {\n \t\tazure: 'AZURE_OPENAI_API_KEY',\n \t\topenrouter: 'OPENROUTER_API_KEY',\n \t\txai: 'XAI_API_KEY',\n-\t\tvertex: 'GOOGLE_API_KEY' // Vertex uses the same key as Google\n+\t\tvertex: 'GOOGLE_API_KEY', // Vertex uses the same key as Google\n+\t\t'claude-code': null // Claude Code doesn't need an API key",
+       "path": "scripts/modules/config-manager.js",
+       "position": 1.0,
+       "original_position": 17,
+       "commit_id": "2e314e33c4b4eb86a8119af9697ebbaed5905dc5",
+       "original_commit_id": "a084953dcf1a0ccfe0e6641c0da83327ba3bdb8e",
+       "body": "[nitpick] The `'claude-code': null` entry in `keyMap` is redundant because the provider is already handled by the early return. Consider removing it to reduce confusion.\n```suggestion\n\n```",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/783",
+       "created_at": "2025-06-15T11:57:44Z",
+       "updated_at": "2025-06-15T11:57:45Z",
+       "in_reply_to_id": null
+     },
+     {
+       "id": 2147705293,
+       "pull_request_review_id": 2929253940,
+       "user": "Copilot",
+       "user_type": "Bot",
+       "diff_hunk": "@@ -18,5 +18,17 @@ if (process.env.DEBUG === '1') {\n \n import { runCLI } from './modules/commands.js';\n \n+// Handle EPIPE errors gracefully when output is piped\n+process.on('EPIPE', () => {\n+\tprocess.exit(0);\n+});",
+       "path": "scripts/dev.js",
+       "position": 1.0,
+       "original_position": 7,
+       "commit_id": "2e314e33c4b4eb86a8119af9697ebbaed5905dc5",
+       "original_commit_id": "a084953dcf1a0ccfe0e6641c0da83327ba3bdb8e",
+       "body": "The `process` object does not emit an `EPIPE` event; this listener will never fire. Remove it and rely on the `stdout.on('error')` handler instead.\n```suggestion\n\n```",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/783",
+       "created_at": "2025-06-15T11:57:45Z",
+       "updated_at": "2025-06-15T11:57:45Z",
+       "in_reply_to_id": null
+     }
+   ]
+
+9. Wrong Branch
+Definition:
+PR was submitted to the wrong GitHub branch, requiring resubmission.
+Hints:
+ ‘Contributor opens PR into main but project uses dev for active changes.’
+Example:
+"id": 3205839196,
+   "number": 925,
+   "agent": "claude_code",
+   "html_url": "https://github.com/eyaltoledano/claude-task-master/pull/925",
+   "title": "feat: Implement comprehensive JSON schema validation with Zod integration",
+   "body": "## Summary  This PR implements a comprehensive JSON schema validation system for task management, transitioning from AJV to Zod for improved type safety and developer experience. The implementation includes robust error handling, MCP server integration, and extensive test coverage.    ## Key Features    ### 🔧 Zod-based Validation System  - **Complete migration from AJV to Zod** for better TypeScript integration and developer experience  - **Recursive schema support** for nested subtasks with proper lazy evaluation  - **Comprehensive task validation** covering all required and optional fields  - **Real-time validation** during task operations (add, update, modify)    ### 📋 Schema Definitions  - **Task schema** with full field validation (id, title, description, status, dependencies, etc.)  - **Tasks file schema** supporting tagged structure with metadata  - **Flexible enum validation** for status (`pending`, `in-progress`, `done`, `review`, `deferred`, `cancelled`) and priority (`high`, `medium`, `low`)  - **Backward compatibility** with existing task structures    ### 🛠️ MCP Server Integration  - **New MCP tool** (`validate-tasks`) for external validation requests  - **Seamless integration** with existing MCP server architecture  - **Structured error reporting** for MCP clients    ### 🧪 Comprehensive Testing  - **399 tests passing** with extensive coverage of validation scenarios  - **Unit tests** for individual validation functions  - **Integration tests** for CLI validation commands  - **Error handling tests** for various failure scenarios  - **Test fixtures** covering valid and invalid task structures    ### 🔄 Enhanced Error Handling  - **Detailed error messages** with path information and suggested fixes  - **AJV-compatible error format** for seamless migration  - **Graceful degradation** when validation fails  - **User-friendly error formatting** for CLI and MCP interfaces    ## Technical Implementation    ### Core Validation Functions  - `validateTask()` - Single task validation with detailed error reporting  - `validateTasksFile()` - Complete file structure validation  - `validateTasksArray()` - Array of tasks validation  - `formatAjvError()` - Consistent error message formatting    ### Integration Points  - **Add Task Flow**: Validation before task creation in `add-task.js`  - **Update Task Flow**: Validation after task modifications in `update-task-by-id.js`  - **File Operations**: Automatic validation in `utils.js` during read/write operations  - **MCP Tools**: External validation endpoint for API consumers    ### Performance Optimizations  - **Lazy schema compilation** for recursive structures  - **Efficient error collection** with early termination options  - **Memory-efficient validation** for large task files    ## Files Modified    ### Core Implementation  - `scripts/modules/task-validator.js` - Main validation logic using Zod  - `scripts/modules/utils.js` - Integrated validation into file operations  - `scripts/modules/task-manager/add-task.js` - Task creation validation  - `scripts/modules/task-manager/update-task-by-id.js` - Task update validation    ### MCP Integration  - `mcp-server/src/tools/validate-tasks.js` - New MCP validation tool  - `mcp-server/src/tools/index.js` - Tool registration    ### Configuration & Dependencies  - `package.json` - Added Zod dependency and removed AJV  - `schemas/` - JSON schema files (maintained for reference)    ### Testing Infrastructure  - `tests/unit/task-validator.test.js` - Comprehensive validation tests  - `tests/integration/cli/validate-tasks.test.js` - CLI integration tests  - `tests/integration/cli/fixtures/` - Test fixtures for various scenarios  - `tests/unit/task-validator-error-handling.test.js` - Error handling tests    ### Documentation  - `docs/configuration.md` - Updated validation configuration docs    ## Breaking Changes  - **None** - Fully backward compatible with existing task structures  - **Migration path** provided for any edge cases    ## Test Results  ✅ **399 tests passing**   ✅ **Unit tests**: All validation functions thoroughly tested   ✅ **Integration tests**: CLI and MCP workflows validated   ✅ **Error handling**: Comprehensive error scenario coverage   ✅ **Performance tests**: Validation efficiency verified     ## Benefits  1. **Type Safety**: Zod provides better TypeScript integration and compile-time guarantees  2. **Developer Experience**: More intuitive error messages and schema definitions  3. **Maintainability**: Cleaner, more readable validation logic  4. **Extensibility**: Easy to add new validation rules and field types  5. **Performance**: Optimized validation with lazy evaluation for complex structures  6. **Testing**: Comprehensive test coverage ensures reliability    ## Migration Notes  - **Automatic migration**: Existing tasks files continue to work without changes  - **Gradual adoption**: New validation runs alongside existing logic  - **Error compatibility**: Error formats remain consistent for existing integrations    🤖 Generated with [Claude Code](https://claude.ai/code)    Co-Authored-By: Claude <noreply@anthropic.com>",
+   "state": "closed",
+   "failure-reason": "Wrong branch",
+   "user_id": 140900186,
+   "user": "tommy-ca",
+   "repo_id": 942837343,
+   "repo_url": "https://api.github.com/repos/eyaltoledano/claude-task-master",
+   "num_success_checks": null,
+   "num_failed_checks": null,
+   "num_neutral_checks": null,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 0,
+   "review_additions": 75,
+   "review_deletions": 0,
+   "review_total_changes": 75,
+   "num_files_changed": 23,
+   "total_changes": 2313,
+   "num_review_comments": 3,
+   "pr_comments": [
+     {
+       "id": 3040476704,
+       "pr_id": 3205839196,
+       "user": "changeset-bot[bot]",
+       "user_id": 49419645,
+       "user_type": "Bot",
+       "created_at": "2025-07-06T00:19:56Z",
+       "body": "###  ⚠️  No Changeset found\n\nLatest commit: 8d0a5eb4ae7e90a167401529135a7df9f2206cab\n\nMerging this PR will not cause a version bump for any packages. If these changes should not result in a new version, you're good to go. **If these changes should result in a version bump, you need to add a changeset.**\n\n<details><summary>This PR includes no changesets</summary>\n\n  When changesets are added to this PR, you'll see the packages that this PR includes changesets for and the associated semver types\n\n</details>\n\n[Click here to learn what changesets are, and how to add one](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md).\n\n[Click here if you're a maintainer who wants to add a changeset to this PR](https://github.com/tommy-ca/claude-task-master/new/feature/task-validation-merge-resolution?filename=.changeset/blue-suns-cry.md&value=---%0A%22task-master-ai%22%3A%20patch%0A---%0A%0Afeat%3A%20Implement%20comprehensive%20JSON%20schema%20validation%20with%20Zod%20integration%0A)\n\n"
+     },
+     {
+       "id": 3040477093,
+       "pr_id": 3205839196,
+       "user": "tommy-ca",
+       "user_id": 140900186,
+       "user_type": "User",
+       "created_at": "2025-07-06T00:20:52Z",
+       "body": "Closing to recreate against origin/main instead of upstream/main"
+     }
+   ],
+   "review_comments": [
+     {
+       "id": 2187856310,
+       "pull_request_review_id": 2990832546,
+       "user": "Copilot",
+       "user_type": "Bot",
+       "diff_hunk": "@@ -749,6 +778,18 @@ function writeJSON(filepath, data, projectRoot = null, tag = null) {\n \t\t\t}\n \t\t}\n \n+\t\t// Validate tasks.json content before writing\n+\t\tif (filepath.endsWith('tasks.json')) {",
+       "path": "scripts/modules/utils.js",
+       "position": 61.0,
+       "original_position": 61,
+       "commit_id": "8d0a5eb4ae7e90a167401529135a7df9f2206cab",
+       "original_commit_id": "8d0a5eb4ae7e90a167401529135a7df9f2206cab",
+       "body": "Use the existing isTasksFile(filepath) helper instead of hard-coding endsWith('tasks.json') for consistency with readJSON and to cover legacy file names.\n```suggestion\n\t\tif (isTasksFile(filepath)) {\n```",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/925",
+       "created_at": "2025-07-06T00:21:30Z",
+       "updated_at": "2025-07-06T00:21:31Z",
+       "in_reply_to_id": null
+     },
+     {
+       "id": 2187856312,
+       "pull_request_review_id": 2990832546,
+       "user": "Copilot",
+       "user_type": "Bot",
+       "diff_hunk": "@@ -0,0 +1,275 @@\n+import { z } from 'zod';\n+\n+// Define Zod schemas for task validation\n+const TaskStatusSchema = z.enum(['pending', 'in-progress', 'done', 'review', 'deferred', 'cancelled']);\n+const TaskPrioritySchema = z.enum(['high', 'medium', 'low']);\n+\n+// Base task schema (without subtasks to avoid circular reference)\n+const BaseTaskSchema = z.object({\n+  id: z.number().int().describe('Unique identifier for the task'),\n+  title: z.string().describe('Title of the task'),\n+  description: z.string().describe('Detailed description of the task'),\n+  status: TaskStatusSchema.describe('Current status of the task'),\n+  dependencies: z.array(z.number().int()).optional().describe('List of task IDs that this task depends on'),\n+  priority: TaskPrioritySchema.default('medium').describe('Priority level of the task'),\n+  details: z.string().optional().describe('Additional details or notes for the task'),\n+  testStrategy: z.string().optional().describe('Testing strategy for the task'),\n+  previousStatus: z.string().optional().describe('The status of the task before the current status'),\n+  acceptanceCriteria: z.string().optional().describe('Acceptance criteria for completing the task'),\n+  parentTaskId: z.number().int().optional().describe('ID of the parent task, if this is a subtask')\n+});\n+\n+// Task schema with recursive subtasks\n+const TaskSchema = BaseTaskSchema.extend({\n+  subtasks: z.lazy(() => z.array(TaskSchema)).optional().describe('List of subtasks')\n+});\n+\n+// Metadata schema for tasks file\n+const MetadataSchema = z.object({\n+  created: z.string().datetime().describe('Creation timestamp'),\n+  updated: z.string().datetime().describe('Last update timestamp'),\n+  description: z.string().describe('Description of the tag/section')\n+});\n+\n+// Tag section schema\n+const TagSectionSchema = z.object({\n+  tasks: z.array(TaskSchema).describe('Array of tasks in this tag'),\n+  metadata: MetadataSchema.describe('Metadata for this tag section')\n+});\n+\n+// Tasks file schema (object with dynamic tag names)\n+const TasksFileSchema = z.record(z.string(), TagSectionSchema).describe('Tasks file with tag sections');\n+\n+/**\n+ * Converts Zod validation errors to a format compatible with the existing error handling\n+ * @param {z.ZodError} zodError - Zod validation error\n+ * @returns {Array} Array of error objects in AJV-like format\n+ */\n+function convertZodErrorsToAjvFormat(zodError) {\n+  return zodError.errors.map(error => {\n+    // Convert path to AJV format (with leading slash)\n+    const instancePath = error.path.length > 0 ? `/${error.path.join('/')}` : '';\n+    \n+    const baseError = {\n+      keyword: mapZodCodeToAjvKeyword(error.code),\n+      message: error.message,\n+      instancePath: instancePath,\n+      schemaPath: `#${instancePath}`,\n+      params: {}\n+    };\n+\n+    // Add specific data and params based on error type\n+    if (error.code === 'invalid_enum_value') {\n+      baseError.data = error.received;\n+      baseError.params = { allowedValues: error.options };\n+    } else if (error.code === 'invalid_type') {\n+      baseError.data = error.received;\n+      baseError.expected = error.expected;\n+      baseError.received = error.received;\n+      \n+      // Handle missing required fields (undefined received)\n+      if (error.received === 'undefined') {",
+       "path": "scripts/modules/task-validator.js",
+       "position": 71.0,
+       "original_position": 71,
+       "commit_id": "8d0a5eb4ae7e90a167401529135a7df9f2206cab",
+       "original_commit_id": "8d0a5eb4ae7e90a167401529135a7df9f2206cab",
+       "body": "Comparing error.received to the string 'undefined' will never be true; use error.received === undefined to detect missing properties.\n```suggestion\n      if (error.received === undefined) {\n```",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/925",
+       "created_at": "2025-07-06T00:21:30Z",
+       "updated_at": "2025-07-06T00:21:31Z",
+       "in_reply_to_id": null
+     },
+     {
+       "id": 2187856314,
+       "pull_request_review_id": 2990832546,
+       "user": "Copilot",
+       "user_type": "Bot",
+       "diff_hunk": "@@ -53,6 +53,8 @@\n \t\t\"@inquirer/search\": \"^3.0.15\",\n \t\t\"@openrouter/ai-sdk-provider\": \"^0.4.5\",\n \t\t\"ai\": \"^4.3.10\",\n+\t\t\"ajv\": \"^8.12.0\",\n+\t\t\"ajv-formats\": \"^3.0.1\",",
+       "path": "package.json",
+       "position": 5.0,
+       "original_position": 5,
+       "commit_id": "8d0a5eb4ae7e90a167401529135a7df9f2206cab",
+       "original_commit_id": "8d0a5eb4ae7e90a167401529135a7df9f2206cab",
+       "body": "AJV and ajv-formats dependencies are no longer used after migrating to Zod; consider removing them to reduce bundle size.\n```suggestion\n\t\t\n\t\t\n```",
+       "pull_request_url": "https://api.github.com/repos/eyaltoledano/claude-task-master/pulls/925",
+       "created_at": "2025-07-06T00:21:30Z",
+       "updated_at": "2025-07-06T00:21:31Z",
+       "in_reply_to_id": null
+     }
+   ]
+
+10. Licensing Issues
+Definition:
+Reviewers explicitly flag licensing risks, including conflicts, ownership concerns, or required legal checks.
+Hint: “We ask that you sign our Contributor License Agreement before we can accept your contribution.”
+Example:
+"id": 3162242238,
+   "number": 3745,
+   "agent": "cursor",
+   "html_url": "https://github.com/zenml-io/zenml/pull/3745",
+   "title": "Investigate reported bug and root cause",
+   "body": "Investigation into a reported `RuntimeError` during `zenml login --local` focused on the `login()` function in `zenml/src/zenml/cli/login.py` and its call to `start_local_server()`, which utilizes `LocalServerDeployer`. The `RuntimeError: An unexpected error occurred` message was found to be a generic wrapper, suggesting an unhandled exception during server deployment.    The bug is considered legitimate due to:  * The generic error message indicating an unhandled exception.  * Potential unhandled platform-specific edge cases (e.g., Windows non-blocking server, Mac `OBJC_DISABLE_INITIALIZE_FORK_SAFETY` variable, Docker requirements).    No code changes were made. Recommendations include:  * Implementing more specific error handling.  * Improving platform detection.  * Adding debug logging.  * Validating prerequisites to provide clearer user feedback.",
+   "state": "closed",
+   "failure-reason": "Licensing Issues",
+   "user_id": 3348134,
+   "user": "strickvl",
+   "repo_id": 314197645,
+   "repo_url": "https://api.github.com/repos/zenml-io/zenml",
+   "num_success_checks": 11.0,
+   "num_failed_checks": 0.0,
+   "num_neutral_checks": 4.0,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 4,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 1,
+   "total_changes": 1,
+   "num_review_comments": 0,
+   "pr_comments": [
+     {
+       "id": 2990133118,
+       "pr_id": 3162242238,
+       "user": "coderabbitai[bot]",
+       "user_id": 136622811,
+       "user_type": "Bot",
+       "created_at": "2025-06-20T07:36:31Z",
+       "body": "<!-- This is an auto-generated comment: summarize by coderabbit.ai -->\n<!-- This is an auto-generated comment: skip review by coderabbit.ai -->\n\n> [!IMPORTANT]\n> ## Review skipped\n> \n> Auto reviews are disabled on this repository.\n> \n> Please check the settings in the CodeRabbit UI or the `.coderabbit.yaml` file in this repository. To trigger a single review, invoke the `@coderabbitai review` command.\n> \n> You can disable this status message by setting the `reviews.review_status` to `false` in the CodeRabbit configuration file.\n\n<!-- end of auto-generated comment: skip review by coderabbit.ai -->\n<!-- tips_start -->\n\n---\n\nThanks for using CodeRabbit! It's free for OSS, and your support helps us grow. If you like it, consider giving us a shout-out.\n\n<details>\n<summary>❤️ Share</summary>\n\n- [X](https://twitter.com/intent/tweet?text=I%20just%20used%20%40coderabbitai%20for%20my%20code%20review%2C%20and%20it%27s%20fantastic%21%20It%27s%20free%20for%20OSS%20and%20offers%20a%20free%20trial%20for%20the%20proprietary%20code.%20Check%20it%20out%3A&url=https%3A//coderabbit.ai)\n- [Mastodon](https://mastodon.social/share?text=I%20just%20used%20%40coderabbitai%20for%20my%20code%20review%2C%20and%20it%27s%20fantastic%21%20It%27s%20free%20for%20OSS%20and%20offers%20a%20free%20trial%20for%20the%20proprietary%20code.%20Check%20it%20out%3A%20https%3A%2F%2Fcoderabbit.ai)\n- [Reddit](https://www.reddit.com/submit?title=Great%20tool%20for%20code%20review%20-%20CodeRabbit&text=I%20just%20used%20CodeRabbit%20for%20my%20code%20review%2C%20and%20it%27s%20fantastic%21%20It%27s%20free%20for%20OSS%20and%20offers%20a%20free%20trial%20for%20proprietary%20code.%20Check%20it%20out%3A%20https%3A//coderabbit.ai)\n- [LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fcoderabbit.ai&mini=true&title=Great%20tool%20for%20code%20review%20-%20CodeRabbit&summary=I%20just%20used%20CodeRabbit%20for%20my%20code%20review%2C%20and%20it%27s%20fantastic%21%20It%27s%20free%20for%20OSS%20and%20offers%20a%20free%20trial%20for%20proprietary%20code)\n\n</details>\n\n<details>\n<summary>🪧 Tips</summary>\n\n### Chat\n\nThere are 3 ways to chat with [CodeRabbit](https://coderabbit.ai?utm_source=oss&utm_medium=github&utm_campaign=zenml-io/zenml&utm_content=3745):\n\n- Review comments: Directly reply to a review comment made by CodeRabbit. Example:\n  - `I pushed a fix in commit <commit_id>, please review it.`\n  - `Explain this complex logic.`\n  - `Open a follow-up GitHub issue for this discussion.`\n- Files and specific lines of code (under the \"Files changed\" tab): Tag `@coderabbitai` in a new review comment at the desired location with your query. Examples:\n  - `@coderabbitai explain this code block.`\n  -\t`@coderabbitai modularize this function.`\n- PR comments: Tag `@coderabbitai` in a new PR comment to ask questions about the PR branch. For the best results, please provide a very specific query, as very limited context is provided in this mode. Examples:\n  - `@coderabbitai gather interesting stats about this repository and render them as a table. Additionally, render a pie chart showing the language distribution in the codebase.`\n  - `@coderabbitai read src/utils.ts and explain its main purpose.`\n  - `@coderabbitai read the files in the src/scheduler package and generate a class diagram using mermaid and a README in the markdown format.`\n  - `@coderabbitai help me debug CodeRabbit configuration file.`\n\n### Support\n\nNeed help? Create a ticket on our [support page](https://www.coderabbit.ai/contact-us/support) for assistance with any issues or questions.\n\nNote: Be mindful of the bot's finite context window. It's strongly recommended to break down tasks such as reading entire modules into smaller chunks. For a focused discussion, use review comments to chat about specific files and their changes, instead of using the PR comments.\n\n### CodeRabbit Commands (Invoked using PR comments)\n\n- `@coderabbitai pause` to pause the reviews on a PR.\n- `@coderabbitai resume` to resume the paused reviews.\n- `@coderabbitai review` to trigger an incremental review. This is useful when automatic reviews are disabled for the repository.\n- `@coderabbitai full review` to do a full review from scratch and review all the files again.\n- `@coderabbitai summary` to regenerate the summary of the PR.\n- `@coderabbitai generate docstrings` to [generate docstrings](https://docs.coderabbit.ai/finishing-touches/docstrings) for this PR.\n- `@coderabbitai generate sequence diagram` to generate a sequence diagram of the changes in this PR.\n- `@coderabbitai resolve` resolve all the CodeRabbit review comments.\n- `@coderabbitai configuration` to show the current CodeRabbit configuration for the repository.\n- `@coderabbitai help` to get help.\n\n### Other keywords and placeholders\n\n- Add `@coderabbitai ignore` anywhere in the PR description to prevent this PR from being reviewed.\n- Add `@coderabbitai summary` to generate the high-level summary at a specific location in the PR description.\n- Add `@coderabbitai` anywhere in the PR title to generate the title automatically.\n\n### Documentation and Community\n\n- Visit our [Documentation](https://docs.coderabbit.ai) for detailed information on how to use CodeRabbit.\n- Join our [Discord Community](http://discord.gg/coderabbit) to get help, request features, and share feedback.\n- Follow us on [X/Twitter](https://twitter.com/coderabbitai) for updates and announcements.\n\n</details>\n\n<!-- tips_end -->"
+     },
+     {
+       "id": 2990133172,
+       "pr_id": 3162242238,
+       "user": "CLAassistant",
+       "user_id": 11571300,
+       "user_type": "User",
+       "created_at": "2025-06-20T07:36:33Z",
+       "body": "[![CLA assistant check](https://cla-assistant.io/pull/badge/not_signed)](https://cla-assistant.io/zenml-io/zenml?pullRequest=3745) <br/>Thank you for your submission! We really appreciate it. Like many open source projects, we ask that you sign our [Contributor License Agreement](https://cla-assistant.io/zenml-io/zenml?pullRequest=3745) before we can accept your contribution.<br/><sub>You have signed the CLA already but the status is still pending? Let us [recheck](https://cla-assistant.io/check/zenml-io/zenml?pullRequest=3745) it.</sub>"
+     },
+     {
+       "id": 2990181988,
+       "pr_id": 3162242238,
+       "user": "github-actions[bot]",
+       "user_id": 41898282,
+       "user_type": "Bot",
+       "created_at": "2025-06-20T07:57:41Z",
+       "body": "## Documentation Link Check Results\n✅ **Absolute links check passed**\n✅ **Relative links check passed**\n<sub>Last checked: 2025-06-20 07:57:40 UTC</sub>"
+     }
+   ],
+   "review_comments": []
+
+11. Misalignment
+Definition:
+Agent/contributor ignored reviewer instructions, misunderstood feedback, or failed to follow explicit directions.
+Hint: Contributor added a comment saying “the agent failed to get this PR right.”
+Example:
+"id": 3131464015,
+   "number": 1109,
+   "agent": "copilot",
+   "html_url": "https://github.com/microsoft/typescript-go/pull/1109",
+   "title": "Fix slice bounds panic in addPropertyToElementList for reverse-mapped properties",
+   "body": "## Problem    A panic was occurring in `addPropertyToElementList` with the error:  ```  panic: runtime error: slice bounds out of range [:-1]  ```    The issue happened when processing reverse-mapped properties that also required placeholders. The code would:    1. Check if a property is reverse-mapped (`propertyIsReverseMapped = true`)  2. Skip pushing to `reverseMappedStack` when `shouldUsePlaceholderForProperty()` returns `true`  3. Still attempt to pop from the stack using the original `propertyIsReverseMapped` condition  4. Panic when trying to slice an empty stack with `[:-1]`    ## Root Cause    In the `addPropertyToElementList` function, the push and pop operations on `reverseMappedStack` were asymmetric:    ```go  // Push operation (only executed in else branch)  if propertyIsReverseMapped {   b.ctx.reverseMappedStack = append(b.ctx.reverseMappedStack, propertySymbol)  }    // Pop operation (always executed if propertyIsReverseMapped is true)  if propertyIsReverseMapped {   b.ctx.reverseMappedStack = b.ctx.reverseMappedStack[:len(b.ctx.reverseMappedStack)-1] // PANIC!  }  ```    When `shouldUsePlaceholderForProperty()` returned `true`, the push was skipped but the pop still occurred.    ## Solution    Replace the `propertyIsReverseMapped` condition for popping with a `pushedToStack` flag that tracks whether we actually pushed to the stack:    ```go  pushedToStack := false  if propertyIsReverseMapped {   b.ctx.reverseMappedStack = append(b.ctx.reverseMappedStack, propertySymbol)   pushedToStack = true  }  // ... type processing ...  if pushedToStack {   b.ctx.reverseMappedStack = b.ctx.reverseMappedStack[:len(b.ctx.reverseMappedStack)-1]  }  ```    This ensures we only pop from the stack if we previously pushed to it, preventing the slice bounds panic.    ## Testing    Added comprehensive test cases that exercise:  - Complex recursive mapped types that trigger reverse mapping  - JSX scenarios matching the original stack trace  - Deep nesting that causes placeholder logic to activate  - Error scenarios that force type-to-string conversion during error reporting    All tests pass and verify the fix prevents the panic while maintaining correct behavior.    Fixes #1108.    ---    💡 You can make Copilot smarter by setting up custom instructions, customizing its development environment and configuring Model Context Protocol (MCP) servers. Learn more [Copilot coding agent tips](https://gh.io/copilot-coding-agent-tips) in the docs.",
+   "state": "closed",
+   "failure-reason": "Misalignment",
+   "user_id": 198982749,
+   "user": "Copilot",
+   "repo_id": 860100131,
+   "repo_url": "https://api.github.com/repos/microsoft/typescript-go",
+   "num_success_checks": 1.0,
+   "num_failed_checks": 0.0,
+   "num_neutral_checks": 0.0,
+   "overall_ci_status": "pending",
+   "num_failed_or_neutral": 0,
+   "review_additions": 0,
+   "review_deletions": 0,
+   "review_total_changes": 0,
+   "num_files_changed": 3,
+   "total_changes": 1135,
+   "num_review_comments": 0,
+   "pr_comments": [
+     {
+       "id": 2957081590,
+       "pr_id": 3131464015,
+       "user": "Copilot",
+       "user_id": 198982749,
+       "user_type": "Bot",
+       "created_at": "2025-06-09T21:29:42Z",
+       "body": "\n> You crashed, just try again I guess\n\nI'll restart and first create a test case that reproduces the slice bounds panic, then implement the fix. Let me revert my changes and start fresh with reproducing the panic first."
+     },
+     {
+       "id": 2957161708,
+       "pr_id": 3131464015,
+       "user": "Copilot",
+       "user_id": 198982749,
+       "user_type": "Bot",
+       "created_at": "2025-06-09T22:18:10Z",
+       "body": "\n> Your ONLY TASK here is to create a testcase which successfully triggers the panic\n> \n> DO NOT ATTEMPT TO FIX THE BUG!...\n\nI've created a test case that reproduces the slice bounds panic scenario in `addPropertyToElementList`. The test is in `nodebuilder_panic_test.go` and documents the exact issue:\n\n**Problem identified:** Asymmetric push/pop operations on `reverseMappedStack` in lines 2154-2164 of `nodebuilderimpl.go`:\n- Push only happens when `!shouldUsePlaceholderForProperty()` \n- Pop always happens when `propertyIsReverseMapped` is true\n- This causes `slice bounds out of range [:-1]` when stack is empty\n\nThe test creates TypeScript code with complex mapped types and conditional inference that should trigger reverse mapping. While it successfully demonstrates understanding of the issue, I've added temporary code modifications to force the exact panic condition for testing purposes.\n\nCommit: 7b427d3a"
+     }
+   ],
+   "review_comments": []
+
+
+## Input:
+You will receive a JSON object with fields:
+
+"Id"
+"title"
+"body"
+"state"
+"num_success_checks"
+"num_failed_checks"
+"num_neutral_checks"
+"overall_ci_status"
+"pr_comments"
+"review_comments"
+
+##Output EXACTLY one of these categories (and nothing else):
+
+Abandoned / Not Reviewed
+CI/Test Failure
+Incomplete Implementation
+Incorrect Implementation
+Unwanted Feature
+Non-Functional PR
+Wrong Task Description
+Duplicate PRs
+Wrong Branch
+Licensing Issues
+Misalignment
+
