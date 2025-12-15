@@ -8,7 +8,7 @@ import ollama
 
 # ----------------------- CONFIG -----------------------
 
-PROMPT_PATH = "prompt2.txt"   # classification instructions
+PROMPT_PATH = "few-shot-prompt.txt"   # classification instructions
 DEFAULT_MODEL = "gpt-oss:20b"  # or "mistral", "mistral-small", etc.
 MAX_COMMENTS = 5
 MAX_COMMENT_CHARS = 300
